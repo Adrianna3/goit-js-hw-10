@@ -17,7 +17,8 @@ searchBox.addEventListener(
         if (e.target.value.trim() !== '') {
           console.log(error)
           Notiflix.Notify.failure('Oops, there is no country with that name');
-          clearElements(countryList, countryInfo);
+          countryList.innerHTML = '';
+          countryInfo.innerHTML = '';
           return
         }
       })
@@ -25,13 +26,18 @@ searchBox.addEventListener(
 );
 
 function renderCountryOne(countries) {
-  if (countries.length > 10) {
+if (countries.length < 1) {
+    countryList.innerHTML = '';
+    countryInfo.innerHTML = ''
+  }
+  else if (countries.length > 10) {
     Notiflix.Notify.info(
       'Too many matches found. Please enter a more specific name.'
     );
     countryList.innerHTML = '';
     countryInfo.innerHTML = '';
   } else if (countries.length > 1 && countries.length < 10) {
+    countryInfo.innerHTML = '';
     const markup = countries
       .map(({ name, flags }) => {
         return `<div class = name>
@@ -40,7 +46,7 @@ function renderCountryOne(countries) {
       })
       .join('');
     countryList.innerHTML = markup;
-    clear();
+   
   } else if (countries.length === 1) {
     const markup = countries
       .map(({ name, flags, capital, population, languages }) => {
@@ -57,5 +63,6 @@ function renderCountryOne(countries) {
       .join('');
     countryInfo.innerHTML = markup;
     countryList.innerHTML = '';
-  }
+  } 
+     
 }
